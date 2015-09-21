@@ -1,13 +1,14 @@
 "use strict"
-let test = () => {
-    return new Promise((resolve, reject)=>{
-        setTimeout(=>
-        resolve(1)
-,1)
-    })
-}
+let test = (n,x) => new Promise( (resolve, reject) =>
+    setTimeout( ()=>resolve(x), n)
+)
+
 let main = () => {
-    test().then(x=>console.log(x))
+    Promise.all([
+        test(1000, 1),
+        test(1500, 2),
+        test(500, 3)
+    ]).then(x=>console.log(x))
 }
 
 main()
