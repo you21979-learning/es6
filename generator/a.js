@@ -1,8 +1,8 @@
 "use strict"
 
-var co = require("co");
+const co = require("co");
 
-let delay = (str) => {
+const delay = (str) => {
     return new Promise(function(resolve) {
         setTimeout(function() {
             resolve(str);
@@ -10,7 +10,7 @@ let delay = (str) => {
     });
 }
 
-let f = function*(){
+const f = function*(){
     console.log("a")
     let str1 = yield delay("async1")
     let str2 = yield delay("async2")
@@ -22,18 +22,26 @@ let f = function*(){
 }
 
 
-let f2 = function*(){
+const f2 = function*(){
     console.log("a")
     let strs = yield Promise.all([delay("async1"), delay("async2"), delay("async3")])
     console.log("b")
     console.log(strs)
 }
-
+const f3 = function*(){
+    console.log("a")
+    let str1 = yield delay("async1").then(res=>delay("async2")).then(res=>delay("async3"))
+    console.log("b")
+    console.log(str1)
+}
 
 co(f).then(function(){
-    console.log("ok");
+    console.log("ok1");
 })
 co(f2).then(function(){
     console.log("ok2");
+})
+co(f3).then(function(){
+    console.log("ok3");
 })
 
